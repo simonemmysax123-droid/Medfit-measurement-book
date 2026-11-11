@@ -1,0 +1,37 @@
+SIMON'S MEDFIT HUB — MEDFIT MEASUREMENT BOOK
+BRAND THEME: NAVY BLUE, WHITE AND SKY BLUE
+
+WHAT IS INCLUDED
+1. MedFitMeasurementBook/ — native Android Studio project source.
+2. medfit_measurement_book.html — lightweight browser version.
+
+IMPORTANT
+This package contains source code, not an installable APK. The Android project must be compiled with Android Studio and the Android SDK on a computer before an APK can be installed on your phone.
+
+ANDROID PROJECT FEATURES PRESENT IN THIS STARTER
+- Offline customer records stored locally in SQLite
+- Automatic customer ID numbers
+- Male and female customer profiles
+- Measurement fields grouped by upper body, lower body and other
+- Front/back body illustration toggle
+- Search, view, edit and delete customer records
+- PDF export and JSON backup/restore
+
+BUILD THE APK
+1. On a Windows, Mac or Linux computer, install Android Studio.
+2. Extract this ZIP file.
+3. In Android Studio choose Open and select the MedFitMeasurementBook folder.
+4. Allow Gradle and Android SDK components to download.
+5. Choose Build > Build Bundle(s) / APK(s) > Build APK(s).
+6. Android Studio will show the APK output location. Transfer that APK to your Android phone and install it.
+
+The HTML file is a separate browser-based version. It is not an APK. It can be opened in a browser, but reliable offline home-screen installation requires hosting it from a secure HTTPS address or packaging it as an app.
+
+CUSTOMER PRIVACY
+Customer phone numbers and body measurements are personal information. Keep backup files private and secure. Export backups regularly; do not share them publicly.
+
+CUSTOMISABLE MEASUREMENT FIELDS
+The current starter records measurements and customer profiles. Custom outfit templates and add/rename/reorder/delete measurement fields are a planned next development step; they are not yet implemented in this starter package.
+
+DEVELOPMENT NOTE
+The included Android project is a functional starter, not a final tested Play Store release. Its body figure is an illustrative guide, not a clinically accurate anatomical chart. A further design/testing pass is needed to replace it with detailed male/female front and back diagrams and test installation on your device.

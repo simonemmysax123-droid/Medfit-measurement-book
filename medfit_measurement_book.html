@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#12304a">
+<title>MedFit Measurement Book</title>
+<style>
+:root{--green:#4db8e8;--deep:#12304a;--ink:#20251b;--muted:#6c8090;--line:#dce9f0;--bg:#f6fafd;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(135deg,#75c9ee,#4db8e8);padding:22px 18px 18px;color:#12304a}
+.head{max-width:1000px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:12px;font-weight:800;letter-spacing:2px}.title{font-size:25px;font-weight:850;line-height:1.15;margin-top:4px}.tag{font-size:12px;margin-top:5px;color:#36566d}
+main{max-width:1000px;margin:18px auto;padding:0 14px 40px}
+.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}.tab{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;font-weight:700;white-space:nowrap;color:#456276}.tab.active{background:#12304a;color:white;border-color:#12304a}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 5px 20px #12304a09}
+h2{font-size:19px;margin:0 0 14px}h3{font-size:15px;margin:18px 0 10px;color:var(--deep)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}
+label{font-size:12px;font-weight:750;color:#526b7d}input,select,textarea{width:100%;border:1px solid #d5e6ef;border-radius:10px;padding:11px 12px;font:inherit;background:#fff;color:#20251b;min-width:0}
+input:focus,select:focus,textarea:focus{outline:2px solid #b8e5f8;border-color:#4db8e8}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:750;font-size:14px;cursor:pointer;background:#12304a;color:white}.btn.secondary{background:#e8f6fd;color:#12304a}.btn.outline{background:white;color:#12304a;border:1px solid #cfe7f4}.btn.danger{background:#fff0ed;color:#a33d2d}
+.note{font-size:12px;color:var(--muted);margin-top:9px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{padding:13px;background:#e8f6fd;border-radius:13px}.stat b{font-size:22px;display:block;color:#12304a}.stat span{font-size:11px;color:#60798a}
+.searchrow{display:flex;gap:9px;margin-bottom:12px}.searchrow input{flex:1}
+.customer{border:1px solid var(--line);border-radius:13px;padding:13px;margin:9px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}.customer strong{display:block}.sub{font-size:12px;color:var(--muted)}.pill{display:inline-block;background:#e8f6fd;color:#12304a;border-radius:99px;padding:3px 8px;font-size:11px;font-weight:800}
+.empty{text-align:center;padding:30px 12px;color:var(--muted)}
+.hidden{display:none!important}.small{font-size:12px}
+#pdfArea{display:none}
+.diagram{background:#eef8fd;border:1px solid #d9edf7;border-radius:13px;padding:12px;display:flex;gap:10px;align-items:center;margin:12px 0}
+.diagram svg{width:70px;height:112px;flex:none}.diagram p{margin:0;font-size:12px;color:#60798a}
+footer{max-width:1000px;margin:0 auto;padding:0 14px 28px;color:#77806d;font-size:11px}
+@media(min-width:700px){.grid.measure{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stats{gap:7px}.stat{padding:10px}.stat b{font-size:19px}.customer{align-items:flex-start}.searchrow{flex-direction:column}}
+@media print{body{background:white}header,main,footer,.no-print{display:none!important}#pdfArea{display:block!important;padding:20px;font-family:Arial,sans-serif;color:#111}#pdfArea h1{font-size:22px;margin-bottom:4px}#pdfArea .pdfmeta{color:#555;font-size:12px;margin-bottom:18px}#pdfArea table{width:100%;border-collapse:collapse;margin-top:12px}#pdfArea td,#pdfArea th{border:1px solid #bbb;padding:8px;text-align:left;font-size:12px}#pdfArea th{background:#e8f6fd}#pdfArea h3{margin-top:18px;color:#222}}
+</style>
+</head>
+<body>
+<header><div class="head"><div><div class="brand">SIMON'S MEDFIT HUB</div><div class="title">Measurement Book</div><div class="tag">Designed for Care. Tailored for Professionals.</div></div><div aria-hidden="true" style="font-size:35px">📏</div></div></header>
+<main>
+<div class="tabs no-print">
+<button class="tab active" data-tab="customers">Customers</button>
+<button class="tab" data-tab="new">Add measurement</button>
+<button class="tab" data-tab="backup">Backup & settings</button>
+</div>
+<section id="customers" class="view">
+<div class="stats"><div class="stat"><b id="countAll">0</b><span>Customers saved</span></div><div class="stat"><b id="countMen">0</b><span>Men</span></div><div class="stat"><b id="countWomen">0</b><span>Women</span></div></div>
+<div class="panel"><h2>Customer records</h2><div class="searchrow"><input id="search" placeholder="Search name, phone or ID…"><button class="btn" id="addFirst">+ New</button></div><div id="customerList"></div></div>
+</section>
+<section id="new" class="view hidden">
+<div class="panel">
+<h2 id="formTitle">New customer measurement</h2>
+<form id="measureForm">
+<input type="hidden" id="editId">
+<div class="grid">
+<div class="field"><label for="name">Customer name *</label><input id="name" required placeholder="Full name"></div>
+<div class="field"><label for="phone">Phone number</label><input id="phone" type="tel" placeholder="Phone number"></div>
+<div class="field"><label for="gender">Measurement profile *</label><select id="gender"><option value="Female">Female</option><option value="Male">Male</option></select></div>
+<div class="field"><label for="email">Email (optional)</label><input id="email" type="email" placeholder="Customer email"></div>
+<div class="field"><label for="date">Date measured</label><input id="date" type="date"></div>
+<div class="field"><label for="style">Outfit / style</label><input id="style" placeholder="e.g. Scrub set, lab coat"></div>
+<div class="field full"><label for="notes">Notes</label><textarea id="notes" rows="2" placeholder="Fabric, fit preference or other notes"></textarea></div>
+</div>
+<div class="diagram"><svg viewBox="0 0 80 130" role="img" aria-label="Simple body measurement guide"><circle cx="40" cy="13" r="9" fill="#4db8e8" stroke="#12304a" stroke-width="1.5"/><path d="M29 27 Q40 22 51 27 L57 57 L51 60 L49 43 L53 82 L47 82 L45 57 L44 112 L36 112 L35 57 L33 82 L27 82 L31 43 L29 60 L23 57Z" fill="#9bd8f3" stroke="#12304a" stroke-width="1.5" stroke-linejoin="round"/><path d="M25 37 L12 63 M55 37 L68 63" stroke="#12304a" stroke-width="3" stroke-linecap="round"/></svg><p><strong>Measurement guide</strong><br>Enter measurements in inches or centimetres consistently. The body guide is illustrative; use the fields below to record the actual tape measurements.</p></div>
+<h3>Upper body</h3><div class="grid measure" id="upperFields"></div>
+<h3>Lower body</h3><div class="grid measure" id="lowerFields"></div>
+<h3>Other measurements</h3><div class="grid measure" id="otherFields"></div>
+<div class="actions"><button class="btn" type="submit">Save customer</button><button class="btn secondary" type="button" id="clearForm">Clear form</button></div>
+<p class="note">A unique customer ID is assigned automatically when you save a new record.</p>
+</form></div>
+</section>
+<section id="backup" class="view hidden">
+<div class="panel"><h2>Backup & settings</h2><p class="sub">Your records are saved in this browser on this device. Export a backup regularly so you can restore your records if you change phones or clear browser data.</p>
+<div class="actions"><button class="btn" id="exportBackup">Download data backup</button><button class="btn secondary" id="importBtn">Restore from backup</button><input type="file" id="importFile" accept=".json,application/json" class="hidden"></div>
+<h3>Measurement units</h3><div class="field"><label for="unit">Default unit shown on forms</label><select id="unit"><option value="in">Inches (in)</option><option value="cm">Centimetres (cm)</option></select></div>
+<h3>Business details for PDF</h3><div class="grid"><div class="field"><label for="bizName">Business name</label><input id="bizName" value="Simon's MedFit Hub"></div><div class="field"><label for="bizContact">Business phone / email</label><input id="bizContact" placeholder="Your business contact"></div></div>
+<div class="actions"><button class="btn" id="saveSettings">Save settings</button></div>
+<p class="note">Backup files contain customer personal information. Keep them private and store them securely. Email or cloud backup is not automatic; use the backup file and save it somewhere safe, such as your Google Drive.</p></div>
+</section>
+</main>
+<footer>MedFit Measurement Book · Offline-first personal record tool. Keep a separate backup of your customer data.</footer>
+<div id="pdfArea"></div>
+<script>
+const KEY='medfit_measurement_book_v1', SET='medfit_measurement_settings_v1';
+const fields={
+ upper:[['neck','Neck'],['shoulder','Shoulder'],['chest','Chest / bust'],['upper_bust','Upper bust'],['under_bust','Under bust'],['armhole','Armhole'],['sleeve','Sleeve length'],['upper_arm','Upper arm'],['wrist','Wrist'],['top_length','Top length'],['back_length','Back length'],['front_length','Front length']],
+ lower:[['waist','Waist'],['high_hip','High hip'],['hip','Full hip'],['thigh','Thigh'],['knee','Knee'],['calf','Calf'],['ankle','Ankle'],['inseam','Inside leg'],['outseam','Outside leg'],['trouser_length','Trouser length'],['skirt_length','Skirt length']],
+ other:[['cap','Head / cap'],['height','Full height'],['dress_length','Dress length'],['crotch','Crotch'],['other1','Other 1'],['other2','Other 2']]
+};
+let records=loadRecords(), settings=loadSettings();
+function loadRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+function loadSettings(){try{return JSON.parse(localStorage.getItem(SET)||'{}')}catch(e){return {}}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(records))}
+function today(){return new Date().toISOString().slice(0,10)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function nextId(){let max=0;records.forEach(r=>{let n=parseInt(String(r.id).replace(/\D/g,''),10);if(n>max)max=n});return 'ID No.'+(max+1)}
+function buildFields(){for(const [section,arr] of Object.entries(fields)){document.getElementById(section+'Fields').innerHTML=arr.map(([key,label])=>`<div class="field"><label for="${key}">${label} (${settings.unit||'in'})</label><input id="${key}" inputmode="decimal" placeholder="—"></div>`).join('')}}
+function switchTab(tab){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.id!==tab));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='customers')renderList()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+document.getElementById('addFirst').onclick=()=>{resetForm();switchTab('new')};
+function resetForm(){document.getElementById('measureForm').reset();document.getElementById('editId').value='';document.getElementById('date').value=today();document.getElementById('formTitle').textContent='New customer measurement'}
+document.getElementById('clearForm').onclick=resetForm;
+function readForm(){let data={};Object.values(fields).flat().forEach(([k])=>data[k]=document.getElementById(k).value.trim());return data}
+document.getElementById('measureForm').onsubmit=e=>{e.preventDefault();let edit=document.getElementById('editId').value;let existing=records.find(r=>r.id===edit);let r={id:existing?existing.id:nextId(),name:document.getElementById('name').value.trim(),phone:document.getElementById('phone').value.trim(),gender:document.getElementById('gender').value,email:document.getElementById('email').value.trim(),date:document.getElementById('date').value||today(),style:document.getElementById('style').value.trim(),notes:document.getElementById('notes').value.trim(),unit:settings.unit||'in',measurements:readForm(),created:existing?existing.created:new Date().toISOString(),updated:new Date().toISOString()};if(existing)records=records.map(x=>x.id===edit?r:x);else records.push(r);persist();resetForm();switchTab('customers');alert(existing?'Customer record updated.':'Customer saved as '+r.id);};
+function renderList(){let q=document.getElementById('search').value.toLowerCase();let filtered=records.filter(r=>[r.id,r.name,r.phone,r.email].join(' ').toLowerCase().includes(q));document.getElementById('countAll').textContent=records.length;document.getElementById('countMen').textContent=records.filter(r=>r.gender==='Male').length;document.getElementById('countWomen').textContent=records.filter(r=>r.gender==='Female').length;let el=document.getElementById('customerList');if(!filtered.length){el.innerHTML='<div class="empty">'+(records.length?'No matching customers found.':'No customers yet. Add your first measurement to get started.')+'</div>';return}el.innerHTML=filtered.slice().reverse().map(r=>`<div class="customer"><div><strong>${esc(r.name)}</strong><div class="sub">${esc(r.id)} · ${esc(r.gender)} · ${esc(r.date)}</div><div class="sub">${esc(r.phone||r.style||'')}</div></div><div class="actions" style="margin:0"><button class="btn secondary small" onclick="editRecord('${esc(r.id)}')">Edit</button><button class="btn outline small" onclick="makePdf('${esc(r.id)}')">PDF</button></div></div>`).join('')}
+document.getElementById('search').oninput=renderList;
+window.editRecord=id=>{let r=records.find(x=>x.id===id);if(!r)return;resetForm();document.getElementById('editId').value=r.id;for(const k of ['name','phone','gender','email','date','style','notes'])document.getElementById(k).value=r[k]||'';Object.entries(r.measurements||{}).forEach(([k,v])=>{let el=document.getElementById(k);if(el)el.value=v});document.getElementById('formTitle').textContent='Edit '+r.id;switchTab('new')};
+window.makePdf=id=>{let r=records.find(x=>x.id===id);if(!r)return;let groups=Object.entries(fields).map(([group,arr])=>{let vals=arr.filter(([k])=>r.measurements?.[k]).map(([k,label])=>`<tr><td>${esc(label)}</td><td>${esc(r.measurements[k])} ${esc(r.unit||'in')}</td></tr>`).join('');return vals?`<h3>${group==='upper'?'Upper body':group==='lower'?'Lower body':'Other measurements'}</h3><table><tr><th>Measurement</th><th>Value</th></tr>${vals}</table>`:''}).join('');document.getElementById('pdfArea').innerHTML=`<h1>${esc(settings.bizName||"Simon's MedFit Hub")}</h1><div class="pdfmeta">${esc(settings.bizContact||'')}<br>Customer measurement record</div><h2>${esc(r.name)} — ${esc(r.id)}</h2><div class="pdfmeta">Profile: ${esc(r.gender)} · Date: ${esc(r.date)} · Phone: ${esc(r.phone||'Not provided')}<br>Style: ${esc(r.style||'Not specified')} · Email: ${esc(r.email||'Not provided')}</div>${groups}<p><b>Notes:</b> ${esc(r.notes||'—')}</p><p style="font-size:10px;color:#555">Generated by MedFit Measurement Book</p>`;window.print()};
+document.getElementById('exportBackup').onclick=()=>{let blob=new Blob([JSON.stringify({app:'MedFit Measurement Book',version:1,exported:new Date().toISOString(),settings,records},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MedFit-measurement-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Array.isArray(d.records))throw Error();if(!confirm('Restore '+d.records.length+' records? This will replace records currently stored in this browser.'))return;records=d.records;settings=d.settings||settings;persist();localStorage.setItem(SET,JSON.stringify(settings));applySettings();renderList();alert('Backup restored.')}catch(err){alert('That file does not look like a MedFit backup.')}e.target.value=''};
+function applySettings(){document.getElementById('unit').value=settings.unit||'in';document.getElementById('bizName').value=settings.bizName||"Simon's MedFit Hub";document.getElementById('bizContact').value=settings.bizContact||'';buildFields()}
+document.getElementById('saveSettings').onclick=()=>{settings={unit:document.getElementById('unit').value,bizName:document.getElementById('bizName').value.trim(),bizContact:document.getElementById('bizContact').value.trim()};localStorage.setItem(SET,JSON.stringify(settings));applySettings();alert('Settings saved.')};
+document.getElementById('date').value=today();applySettings();renderList();
+</script>
+</body>
+</html>
